@@ -9,20 +9,29 @@ import { Badge } from '@/components/ui/badge'
 import { Dropdown } from '../dropDown/DropDown'
 import { useQuery } from '@tanstack/react-query'
 import { CartResponse } from '@/types/cart-response'
+import { WishListResponse } from '@/types/wishList-response'
 
 
 export default function Navbar() {
 
- const {data:cartData , isLoading , isError}= useQuery<CartResponse> ({
-  queryKey:['get-cart'],
-  queryFn:async ()=>{
-    const response = await fetch(`/api/cart`)
-    const payload = await response.json()
-    return payload
-  }
-})
+    const { data: cartData, isLoading, isError } = useQuery<CartResponse>({
+        queryKey: ['get-cart'],
+        queryFn: async () => {
+            const response = await fetch(`/api/cart`)
+            const payload = await response.json()
+            return payload
+        }
+    })
 
 
+    const { data: WishListData, isLoadingError } = useQuery<WishListResponse>({
+        queryKey: ['get-wishlist'],
+        queryFn: async () => {
+            const response = await fetch(`/api/wishlist`)
+            const payload = await response.json()
+            return payload
+        }
+    })
 
     let { status, data: session } = useSession()
     const [isOpen, setisOpen] = useState(false)
@@ -43,6 +52,7 @@ export default function Navbar() {
         { href: '/', content: 'Home' },
         { href: '/products', content: 'Products' },
         { href: '/brands', content: 'Brands' },
+        { href: '/categories', content: 'Categories' },
 
     ]
 
@@ -74,20 +84,31 @@ export default function Navbar() {
                             <li>Loading...</li>
                         ) : status === 'authenticated' ? (
                             <>
-                                <li className='text-sm md:text-base'>HI , {session?.user?.name}</li>
+                                <li className='relative wish'>
+                                    {WishListData && WishListData?.count > 0 ? <Badge className="bg-green-400 text-white absolute -end-3 -top-5">{WishListData?.count}</Badge>
+                                        : null}
+                                    <Link href="/wishList" className="flex justify-center gap-1">
+                                        <p className='hover:text-red-500'>wishList</p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-red-500">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                        </svg>
+
+                                    </Link>
+                                </li>
 
                                 <li className='relative'>
-                                    {cartData && cartData?.numOfCartItems > 0 ?   <Badge className="bg-green-400 text-white absolute -top-5">{cartData?.numOfCartItems}</Badge>
-   : null}
-                                    <Link href="/cart" className="flex items-center gap-1">
 
+                                    {cartData && cartData?.numOfCartItems > 0 ? <Badge className="bg-green-400 text-white absolute -end-3 -top-5">{cartData?.numOfCartItems}</Badge>
+                                        : null}
+                                    <Link href="/cart" className="flex items-center gap-1">
+                                        <p className='hover:text-green-500'>Cart</p>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg "
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             strokeWidth={1.5}
                                             stroke="currentColor"
-                                            className="size-6"
+                                            className="size-6 text-green-500"
                                         >
                                             <path
                                                 strokeLinecap="round"
@@ -98,6 +119,7 @@ export default function Navbar() {
                                     </Link>
                                 </li>
 
+                                <li className='text-sm md:text-base'>HI , {session?.user?.name}</li>
                                 <Dropdown logout={logout} />
 
                                 {/* <li onClick={logout} className='cursor-pointer'>Logout</li> */}

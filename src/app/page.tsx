@@ -3,6 +3,7 @@ import { ProductItem } from "@/types/productInterface";
 import Image from "next/image";
 import { ProductCard } from "./_components/ProductCard/ProductCard";
 import MainSlider from "./_components/MainSlider/MainSlider";
+import CategorySlider from "./_components/CategorySlider/CategorySlider";
 
 export default async function Home() {
 
@@ -16,7 +17,7 @@ export default async function Home() {
   return <>
 
 <MainSlider/>
-
+<CategorySlider/>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
       {allProducts.map((prod) => <ProductCard key={prod._id} prod={prod} />)}

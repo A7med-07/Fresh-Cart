@@ -144,7 +144,7 @@ export default function Cart() {
               })}
             </tbody>
           </table>
-          <Button onClick={() => { removeCart() }} className='w-full'>Clear Cart</Button>
+          <Button variant="outline" onClick={() => { removeCart() }} className='w-full hover:bg-red-500 bg-green-500 py-3'>Clear Cart</Button>
         </div>
       </div>
 
@@ -154,14 +154,14 @@ export default function Cart() {
           <h2 className='text-xl my-4'>Num Of Cart Items: <span className='text-xl text-green-400'>{cartData?.numOfCartItems}</span></h2>
           <h2 className='text-xl'>Total Price: <span className='text-xl text-green-400'>{cartData?.data.totalCartPrice} EGP</span></h2>
 
-          <Button className='mt-5'>
+          <Button className='mt-5 hover:bg-green-600'>
             <Link href={`/checkout/${cartData?.cartId}`}>Check Out</Link>
             </Button>
         </div>
       </div>
     </div> :
       <div className='flex justify-center items-center'>
-        <Image src={cart} alt='cart' width={400} height={400} />
+        <Image src={cart} alt='cart' width={400} height={400} className='h-[700px] w-[1000px]' />
       </div>}
 
 

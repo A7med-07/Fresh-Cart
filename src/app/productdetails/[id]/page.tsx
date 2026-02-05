@@ -32,8 +32,6 @@ export default async function ProductDetails(props: myProps) {
     <div className='grid grid-cols-1 md:grid-cols-2 gap-5 items-center px-4 sm:px-0'>
 
       <div className='md:span-1'>
-       
-
                 <ProductImg images={singleProduct?.images}></ProductImg>
       </div>
       <div className='md:span-1'>

@@ -33,8 +33,8 @@ export default function Footer() {
         <div className="text-center md:text-left">
           <h4 className="font-semibold mb-3">Contact Us</h4>
           <p className="text-gray-900 text-sm sm:text-base">Email: support@freshcart.com</p>
-          <p className="text-gray-900 text-sm sm:text-base">Phone: +20 123 456 7890</p>
-          <p className="text-gray-900 text-sm sm:text-base">Address: Cairo, Egypt</p>
+          <p className="text-gray-900 text-sm sm:text-base">Phone: +20 1011012015</p>
+          <p className="text-gray-900 text-sm sm:text-base">Address: Al-Beheira , Egypt</p>
         </div>
         <div className="text-center md:text-left">
           <h4 className="font-semibold mb-3">Follow Us</h4>
