@@ -1,6 +1,7 @@
 import { CategoryResponse, myCategory } from '@/types/categoryInterface'
 import { Category } from '@/types/productInterface'
 import CategoryCard from '../_components/CategoryCard/CategoryCard'
+import { supCat } from '@/types/supCatInterface'
 
 export default async function Categories() {
     // https://ecommerce.routemisr.com/api/v1/categories
@@ -8,6 +9,9 @@ export default async function Categories() {
 
     const res = await fetch(`https://ecommerce.routemisr.com/api/v1/categories`)
     let { data: allCategories }: { data: Category[] } = await res.json()
+
+
+
 
 
     return <>
@@ -22,6 +26,9 @@ export default async function Categories() {
                 })}
             </div>
         </div>
+
+
+        
 
     </>
 }

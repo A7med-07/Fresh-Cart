@@ -10,6 +10,8 @@ import { clearCart } from '@/services/cart/clear-cart'
 import cart from '../../assets/empty-cart.jpg'
 import Image from 'next/image'
 import Link from 'next/link'
+import CartLoading from '../CartLoading/page'
+import error from '../../assets/error.svg'
 
 export default function Cart() {
   const queryClient = useQueryClient();
@@ -78,10 +80,13 @@ export default function Cart() {
   }
 
   if (isLoading) {
-    return <h2>loading</h2>
+    return <CartLoading/>
   }
   if (isError) {
-    return <h2>error</h2>
+    return <div className='flex justify-center items-center'>
+   
+        <Image src={error} alt='error' width={400} height={400} className='h-[400px] w-[1000px]' />
+      </div>
   }
 
 

@@ -11,6 +11,8 @@ import React from 'react'
 import { ProductItem } from "@/types/productInterface"
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard"
 import { CategoryDetailsResponse, CategoryProductsResponse } from "@/types/category-details"
+import { supCat } from "@/types/supCatInterface"
+
 
 type myProps = {
   params: {
@@ -30,6 +32,17 @@ export default async function CategoryDetailsPage(props: myProps) {
   let productsResponse = await fetch(`https://ecommerce.routemisr.com/api/v1/products?category=${id}`)
   let { data: categoryProducts }: CategoryProductsResponse = await productsResponse.json()
   console.log('Category Products:', categoryProducts);
+
+
+  // جلب الصب كاتيجوري التابعة للكاتيجوري
+  let subCategoriesResponse = await fetch(
+    `https://ecommerce.routemisr.com/api/v1/categories/${id}/subcategories`
+  )
+  let { data: subCategories }: { data: supCat[] } = await subCategoriesResponse.json()
+  console.log('SubCategories:', subCategories);
+
+
+
 
   return (
     <>
@@ -80,7 +93,7 @@ export default async function CategoryDetailsPage(props: myProps) {
           <h2 className='text-2xl sm:text-3xl font-bold mb-6 text-emerald-600 dark:text-emerald-400'>
             Products in {categoryDetails.name}
           </h2>
-          
+
           {categoryProducts && categoryProducts.length > 0 ? (
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6'>
               {categoryProducts.map((product: ProductItem) => (
@@ -96,6 +109,35 @@ export default async function CategoryDetailsPage(props: myProps) {
           )}
         </div>
       </div>
+
+
+{/* SubCategories */}
+<div className='mt-10'>
+  <h2 className='text-2xl sm:text-3xl font-bold mb-6 underline text-emerald-600'>
+    Sub Categories in {categoryDetails.name}:
+  </h2>
+
+  {subCategories && subCategories.length > 0 ? (
+    <div className='grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6'>
+      {subCategories.map((sub) => (
+        <a
+          key={sub._id}
+          href={`/subcategorydetails/${sub._id}`}
+          className='p-4 border rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
+        >
+          {sub.name}
+        </a>
+      ))}
+    </div>
+  ) : (
+    <div className="flex justify-center items-center text-center h-30 w-300 text-gray-400">
+      <h1 >No Subcategories Available</h1>
+    </div>
+  )}
+</div>
+
+
+
     </>
   )
 }

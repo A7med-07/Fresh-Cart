@@ -8,6 +8,8 @@ import Image from 'next/image';
 import React from 'react'
 import toast from 'react-hot-toast';
 import wish from'../../assets/empty-cart.jpg'
+import CartLoading from '../CartLoading/page';
+import error  from '../../assets/error.svg';
 
 export default function WishList() {
 
@@ -54,10 +56,13 @@ export default function WishList() {
 
 
   if (isLoading) {
-    return <h2>loading</h2>
+    return <CartLoading/>
   }
   if (isError) {
-    return <h2>error</h2>
+    return <div className='flex justify-center items-center'>
+   
+        <Image src={error} alt='error' width={400} height={400} className='h-[400px] w-[1000px]' />
+      </div>
   }
 
 
