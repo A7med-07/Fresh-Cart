@@ -12,6 +12,8 @@ export default function AllOrdersPage() {
 
     useEffect(() => {
         if (userId) {
+            localStorage.setItem('userId', userId)
+            setLoading(true)
             fetch(`https://ecommerce.routemisr.com/api/v1/orders/user/${userId}`)
                 .then(res => res.json())
                 .then(data => {
@@ -22,9 +24,10 @@ export default function AllOrdersPage() {
                     console.error(err)
                     setLoading(false)
                 })
+                 
         }
     }, [userId])
-    localStorage.setItem('userId', userId)
+   
 
     if (loading) return <CartLoading/>
 

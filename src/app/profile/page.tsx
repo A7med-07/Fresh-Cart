@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import AllOrdersPage from '../allorders/[userId]/page'
 import Link from 'next/link'
@@ -7,11 +7,16 @@ import Link from 'next/link'
 
 export default function ProfilePage() {
     const { data: session } = useSession()
-    const [activeTab, setActiveTab] = useState('profile')
-    ;
+    const [activeTab, setActiveTab] = useState('profile');
+     const [userId, setUserId] = useState<string | null>(null)
+
+  // استرجاع userId من localStorage بعد ما الصفحة تتنفذ على العميل
+  useEffect(() => {
+    const savedUserId = localStorage.getItem('userId')
+    setUserId(savedUserId)
+  }, [])
      
- 
-    const userId = localStorage.getItem('userId')
+
 
     return (
         <div className="container mx-auto px-4 py-8 h-screen">
@@ -72,7 +77,13 @@ export default function ProfilePage() {
                 {activeTab === 'orders' && (
                     <div>
                         <h2 className="text-2xl font-bold mb-6">My Orders</h2>
-                        <Link href={`/allorders/${userId}`} className="text-green-600 hover:underline">View All Orders</Link>
+                        {userId ? (
+              <Link href={`/allorders/${userId}`} className="text-green-600 hover:underline">
+                View All Orders
+              </Link>
+            ) : (
+              <p>Loading The Orders...</p>
+            )}
 
                     </div>
                 )}
