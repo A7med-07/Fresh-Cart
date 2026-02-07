@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import wish from'../../assets/empty-cart.jpg'
 import CartLoading from '../CartLoading/page';
 import error  from '../../assets/error.svg';
+import Link from 'next/link';
 
 export default function WishList() {
 
@@ -118,8 +119,12 @@ export default function WishList() {
 
         </div>
       </div>
-    </main> : <div className='flex justify-center items-center'>
+    </main> : <div className='flex items-center '>
+      <Link href={'/'} className='mt-4 mx-auto'>
+        <Button className='mt-4 mx-auto'>Explore More Products ...</Button>
+        </Link>
         <Image src={wish} alt='wishlist' width={400} height={400} className='h-[700px] w-[1000px]' />
+        
       </div> }
 
 

@@ -40,10 +40,10 @@ export const authOptions: NextAuthOptions = {
             "Content-Type": "application/json",
           },
 
-          
+
         });
 
-      
+
 
         // if(!response.ok){
         //   return null
@@ -56,14 +56,14 @@ export const authOptions: NextAuthOptions = {
         if ('token' in payload) {
           return {
             id: payload.user.email,
-            name: payload.user.name,  
+            name: payload.user.name,
             email: payload.user.email,
             user: payload.user,
             token: payload.token
           };
-        } 
-          throw new Error('error')
-        
+        }
+        throw new Error('error')
+
       },
     }),
   ],

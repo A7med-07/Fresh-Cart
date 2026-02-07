@@ -12,6 +12,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import CartLoading from '../CartLoading/page'
 import error from '../../assets/error.svg'
+import CheckoutForm from '../_components/CheckoutForm/CheckoutForm'
 
 export default function Cart() {
   const queryClient = useQueryClient();
@@ -93,6 +94,7 @@ export default function Cart() {
 
   return <>
 
+
     {cartData && cartData.numOfCartItems > 0 ? <div className='flex gap-5 my-10'>
       <div className='w-3/4'>
         <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
@@ -166,9 +168,11 @@ export default function Cart() {
       </div>
     </div> :
       <div className='flex justify-center items-center'>
+        <Link href={'/'} className='mt-4 mx-auto'>
+        <Button className='mt-4 mx-auto'>Explore More Products ...</Button>
+        </Link>
         <Image src={cart} alt='cart' width={400} height={400} className='h-[700px] w-[1000px]' />
       </div>}
-
 
 
   </>

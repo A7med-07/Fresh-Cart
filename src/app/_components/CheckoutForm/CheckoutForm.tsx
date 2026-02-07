@@ -8,6 +8,10 @@ import { Shipping } from '@/types/cart-response'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { checkoutSchema, CheckoutSchema } from '../schema/CheckoutSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CartResponse } from '@/types/cart-response'
+
 
 
 export default function CheckoutForm({ cartId }: { cartId: string }) {
@@ -26,27 +30,33 @@ export default function CheckoutForm({ cartId }: { cartId: string }) {
     }
 
 
-    async function payCash(cartId: string, shippingAddress: Shipping) {
-        const response = await payCashOrder(cartId, shippingAddress);
-        console.log(response);
-        if (response.status == 'success') {
-            toast.success('Order Will be delivered to you soon')
-            window.location.href = '/allorders'
-        } else {
-            toast.error('Error ....')
-        }
+
+
+async function payCash(cartId: string, shippingAddress: Shipping) {
+    const response = await payCashOrder(cartId, shippingAddress);
+    console.log('Full Response:', response);
+    localStorage.getItem
+    if (response.status == 'success') {
+        const userId = response.data.user; 
+      
+        toast.success('Order created successfully!')
+        
+       
+        window.location.href = `/allorders/${userId}`
+    } else {
+        toast.error('Error ....')
     }
+}
 
 
-    const form = useForm({
-        defaultValues: {
-            details: '',
-            city: '',
-            phone: ''
-        },
-
-
-    })
+   const form = useForm<CheckoutSchema>({
+  resolver: zodResolver(checkoutSchema),
+  defaultValues: {
+    details: "",
+    city: "",
+    phone: ""
+  }
+});
 
     async function submitForm(values: Shipping) {
         setisLoading(true)
