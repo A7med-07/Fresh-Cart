@@ -3,20 +3,22 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import AllOrdersPage from '../allorders/[userId]/page'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Dialog } from '@/components/ui/dialog'
+import ChangePasswordForm from '../_components/ChangePasswordForm/ChangePasswordForm'
+
+
 
 
 export default function ProfilePage() {
     const { data: session } = useSession()
-    const [activeTab, setActiveTab] = useState('profile');
-     const [userId, setUserId] = useState<string | null>(null)
+    const [activeTab, setActiveTab] = useState('profile')
+    const [userId, setUserId] = useState<string | null>(null)
 
-  // استرجاع userId من localStorage بعد ما الصفحة تتنفذ على العميل
-  useEffect(() => {
-    const savedUserId = localStorage.getItem('userId')
-    setUserId(savedUserId)
-  }, [])
-     
-
+    useEffect(() => {
+        const savedUserId = localStorage.getItem('userId')
+        setUserId(savedUserId)
+    }, [])
 
     return (
         <div className="container mx-auto px-4 py-8 h-screen">
@@ -26,31 +28,28 @@ export default function ProfilePage() {
             <div className="flex gap-4 mb-8 border-b">
                 <button
                     onClick={() => setActiveTab('profile')}
-                    className={`pb-2 px-4 ${
-                        activeTab === 'profile'
+                    className={`pb-2 px-4 ${activeTab === 'profile'
                             ? 'border-b-2 border-green-600 text-green-600 font-semibold'
                             : 'text-gray-600'
-                    }`}
+                        }`}
                 >
                     Profile Info
                 </button>
                 <button
                     onClick={() => setActiveTab('orders')}
-                    className={`pb-2 px-4 ${
-                        activeTab === 'orders'
+                    className={`pb-2 px-4 ${activeTab === 'orders'
                             ? 'border-b-2 border-green-600 text-green-600 font-semibold'
                             : 'text-gray-600'
-                    }`}
+                        }`}
                 >
                     My Orders
                 </button>
                 <button
                     onClick={() => setActiveTab('settings')}
-                    className={`pb-2 px-4 ${
-                        activeTab === 'settings'
+                    className={`pb-2 px-4 ${activeTab === 'settings'
                             ? 'border-b-2 border-green-600 text-green-600 font-semibold'
                             : 'text-gray-600'
-                    }`}
+                        }`}
                 >
                     Settings
                 </button>
@@ -78,20 +77,23 @@ export default function ProfilePage() {
                     <div>
                         <h2 className="text-2xl font-bold mb-6">My Orders</h2>
                         {userId ? (
-              <Link href={`/allorders/${userId}`} className="text-green-600 hover:underline">
-                View All Orders
-              </Link>
-            ) : (
-              <p>Loading The Orders...</p>
-            )}
-
+                            <Link href={`/allorders/${userId}`} className="text-green-600 hover:underline">
+                                View All Orders
+                            </Link>
+                        ) : (
+                            <p>Loading The Orders...</p>
+                        )}
                     </div>
                 )}
 
                 {activeTab === 'settings' && (
                     <div className="bg-white rounded-lg shadow p-6">
                         <h2 className="text-xl font-bold mb-4">Profile Settings</h2>
-                        <p className="text-gray-600">Settings content here...</p>
+                        <hr className="my-4" />
+
+                        <Link href="/change-password">
+                            <Button>Change Your Password</Button>
+                        </Link>
                     </div>
                 )}
             </div>

@@ -57,7 +57,7 @@ export default function Login() {
 
   return <>
 
-    <div className="w-full sm:w-3/4 md:w-1/2 mt-10 rounded-2xl bg-gray-200 mx-auto p-4 sm:p-6 md:p-10 ">
+    <div className="w-full sm:w-3/4 md:w-1/2 mt-10 rounded-2xl bg-gray-200 mx-auto my-60 p-4 sm:p-6 md:p-10 ">
       <h2 className='text-xl sm:text-2xl font-bold text-green-600'>Login Now</h2>
       <form onSubmit={form.handleSubmit(submitForm)} className='' >
 
