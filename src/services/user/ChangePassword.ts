@@ -27,7 +27,7 @@ export async function ChangeMyPassword({
             }
         }
 
-        const response = await fetch(`${process.env.API}user/changeMyPassword`, {
+        const response = await fetch(`${process.env.API}users/changeMyPassword`, {
             method: 'PUT',
             headers: {
                 token: token,
