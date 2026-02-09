@@ -12,6 +12,7 @@ import { ProductItem } from "@/types/productInterface"
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard"
 import { CategoryDetailsResponse, CategoryProductsResponse } from "@/types/category-details"
 import { supCat } from "@/types/supCatInterface"
+import Link from "next/link"
 
 
 type myProps = {
@@ -23,26 +24,42 @@ type myProps = {
 export default async function CategoryDetailsPage(props: myProps) {
   let { id } = await props.params
 
-  // جلب بيانات الكاتيجوري
-  let categoryResponse = await fetch(`https://ecommerce.routemisr.com/api/v1/categories/${id}`)
+
+  let categoryResponse = await fetch(`https://ecommerce.routemisr.com/api/v1/categories/${id}`, {
+    cache: 'no-store'
+  })
   let { data: categoryDetails }: CategoryDetailsResponse = await categoryResponse.json()
-  console.log('Category Details:', categoryDetails);
 
-  // جلب المنتجات الخاصة بالكاتيجوري
-  let productsResponse = await fetch(`https://ecommerce.routemisr.com/api/v1/products?category=${id}`)
+ 
+  let productsResponse = await fetch(`https://ecommerce.routemisr.com/api/v1/products?category=${id}`, {
+    cache: 'no-store'
+  })
   let { data: categoryProducts }: CategoryProductsResponse = await productsResponse.json()
-  console.log('Category Products:', categoryProducts);
 
 
-  // جلب الصب كاتيجوري التابعة للكاتيجوري
   let subCategoriesResponse = await fetch(
-    `https://ecommerce.routemisr.com/api/v1/categories/${id}/subcategories`
+    `https://ecommerce.routemisr.com/api/v1/categories/${id}/subcategories`,
+    { cache: 'no-store' }
   )
-  let { data: subCategories }: { data: supCat[] } = await subCategoriesResponse.json()
-  console.log('SubCategories:', subCategories);
+  let subCategoriesData = await subCategoriesResponse.json()
+  
+  console.log('Category ID:', id)
+  console.log('Category Name:', categoryDetails.name)
+  console.log('SubCategories Full Response:', subCategoriesData)
+  
 
+  let allSubCategories: supCat[] = subCategoriesData.data || []
+  
+ 
+  let subCategories = allSubCategories.filter((sub: any) => {
+    
+    if (sub.category) {
+      return sub.category === id || sub.category._id === id
+    }
+    return true
+  })
 
-
+  console.log('Filtered SubCategories:', subCategories)
 
   return (
     <>
@@ -81,12 +98,43 @@ export default async function CategoryDetailsPage(props: myProps) {
                     <span className="text-emerald-600 dark:text-emerald-400 font-semibold text-lg">
                       {categoryProducts?.length || 0} Products Available
                     </span>
+                    {subCategories.length > 0 && (
+                      <span className="text-blue-600 dark:text-blue-400 font-semibold text-lg">
+                        {subCategories.length} Subcategories
+                      </span>
+                    )}
                   </div>
                 </CardDescription>
               </CardHeader>
             </Card>
           </div>
         </div>
+
+        {/* SubCategories */}
+        {subCategories && subCategories.length > 0 ? (
+          <div className='mb-10'>
+            <h2 className='text-2xl sm:text-3xl font-bold mb-6 text-emerald-600 dark:text-emerald-400'>
+              Sub Categories in {categoryDetails.name}:
+            </h2>
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
+              {subCategories.map((sub) => (
+                <Link
+                  key={sub._id}
+                  href={`/subcategorydetails/${sub._id}`}
+                  className='p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg text-center hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-gray-800 transition-all duration-200 font-medium'
+                >
+                  {sub.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="mb-10 flex justify-center items-center text-center py-10 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <h3 className="text-lg text-gray-500 dark:text-gray-400">
+              No Subcategories Available for {categoryDetails.name}
+            </h3>
+          </div>
+        )}
 
         {/* المنتجات الخاصة بالكاتيجوري */}
         <div className='mt-10'>
@@ -101,7 +149,7 @@ export default async function CategoryDetailsPage(props: myProps) {
               ))}
             </div>
           ) : (
-            <div className='text-center py-10'>
+            <div className='text-center py-10 bg-gray-50 dark:bg-gray-800 rounded-lg'>
               <p className='text-gray-500 dark:text-gray-400 text-lg'>
                 No products available in this category yet.
               </p>
@@ -109,35 +157,6 @@ export default async function CategoryDetailsPage(props: myProps) {
           )}
         </div>
       </div>
-
-
-{/* SubCategories */}
-<div className='mt-10'>
-  <h2 className='text-2xl sm:text-3xl font-bold mb-6 underline text-emerald-600'>
-    Sub Categories in {categoryDetails.name}:
-  </h2>
-
-  {subCategories && subCategories.length > 0 ? (
-    <div className='grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6'>
-      {subCategories.map((sub) => (
-        <a
-          key={sub._id}
-          href={`/subcategorydetails/${sub._id}`}
-          className='p-4 border rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
-        >
-          {sub.name}
-        </a>
-      ))}
-    </div>
-  ) : (
-    <div className="flex justify-center items-center text-center h-30 w-300 text-gray-400">
-      <h1 >No Subcategories Available</h1>
-    </div>
-  )}
-</div>
-
-
-
     </>
   )
 }
