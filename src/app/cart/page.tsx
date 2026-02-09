@@ -96,7 +96,7 @@ export default function Cart() {
 
 
     {cartData && cartData.numOfCartItems > 0 ? <div className='flex gap-5 my-10'>
-      <div className='w-3/4'>
+      <div className='w-3/4 h-screen'>
         <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
           <table className="w-full text-sm text-left rtl:text-right text-body">
             <thead className="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">

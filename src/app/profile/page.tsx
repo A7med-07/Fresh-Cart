@@ -1,55 +1,73 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import AllOrdersPage from '../allorders/[userId]/page'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Dialog } from '@/components/ui/dialog'
-import ChangePasswordForm from '../_components/ChangePasswordForm/ChangePasswordForm'
 
-
-
+import { Plus } from 'lucide-react'
+import AddAddressForm from '../_components/AddAddressForm/page'
+import AddressList from '../_components/AddressList/page'
 
 export default function ProfilePage() {
     const { data: session } = useSession()
     const [activeTab, setActiveTab] = useState('profile')
     const [userId, setUserId] = useState<string | null>(null)
+    const [showAddForm, setShowAddForm] = useState(false)
+    const [refreshAddresses, setRefreshAddresses] = useState(false)
 
     useEffect(() => {
         const savedUserId = localStorage.getItem('userId')
         setUserId(savedUserId)
     }, [])
 
+    const handleAddressAdded = () => {
+        setShowAddForm(false)
+        setRefreshAddresses(prev => !prev)
+    }
+
     return (
-        <div className="container mx-auto px-4 py-8 h-screen">
+        <div className="container mx-auto px-4 py-8 min-h-screen">
             <h1 className="text-3xl font-bold mb-8">My Account</h1>
 
             {/* Tabs */}
-            <div className="flex gap-4 mb-8 border-b">
+            <div className="flex gap-4 mb-8 border-b overflow-x-auto">
                 <button
                     onClick={() => setActiveTab('profile')}
-                    className={`pb-2 px-4 ${activeTab === 'profile'
+                    className={`pb-2 px-4 whitespace-nowrap ${
+                        activeTab === 'profile'
                             ? 'border-b-2 border-green-600 text-green-600 font-semibold'
                             : 'text-gray-600'
-                        }`}
+                    }`}
                 >
                     Profile Info
                 </button>
                 <button
-                    onClick={() => setActiveTab('orders')}
-                    className={`pb-2 px-4 ${activeTab === 'orders'
+                    onClick={() => setActiveTab('addresses')}
+                    className={`pb-2 px-4 whitespace-nowrap ${
+                        activeTab === 'addresses'
                             ? 'border-b-2 border-green-600 text-green-600 font-semibold'
                             : 'text-gray-600'
-                        }`}
+                    }`}
+                >
+                    My Addresses
+                </button>
+                <button
+                    onClick={() => setActiveTab('orders')}
+                    className={`pb-2 px-4 whitespace-nowrap ${
+                        activeTab === 'orders'
+                            ? 'border-b-2 border-green-600 text-green-600 font-semibold'
+                            : 'text-gray-600'
+                    }`}
                 >
                     My Orders
                 </button>
                 <button
                     onClick={() => setActiveTab('settings')}
-                    className={`pb-2 px-4 ${activeTab === 'settings'
+                    className={`pb-2 px-4 whitespace-nowrap ${
+                        activeTab === 'settings'
                             ? 'border-b-2 border-green-600 text-green-600 font-semibold'
                             : 'text-gray-600'
-                        }`}
+                    }`}
                 >
                     Settings
                 </button>
@@ -70,6 +88,37 @@ export default function ProfilePage() {
                                 <p className="font-semibold">{session?.user?.email}</p>
                             </div>
                         </div>
+                    </div>
+                )}
+
+                {activeTab === 'addresses' && (
+                    <div className="space-y-6">
+                        {/* Header with Add Button */}
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-bold">My Addresses</h2>
+                            {!showAddForm && (
+                                <Button
+                                    onClick={() => setShowAddForm(true)}
+                                    className="flex items-center gap-2"
+                                >
+                                    <Plus className="w-5 h-5" />
+                                    Add New Address
+                                </Button>
+                            )}
+                        </div>
+
+                        {/* Add Address Form */}
+                        {showAddForm && (
+                            <div className="mb-6">
+                                <AddAddressForm
+                                    onSuccess={handleAddressAdded}
+                                    onClose={() => setShowAddForm(false)}
+                                />
+                            </div>
+                        )}
+
+                        {/* Address List */}
+                        <AddressList onRefresh={refreshAddresses} />
                     </div>
                 )}
 

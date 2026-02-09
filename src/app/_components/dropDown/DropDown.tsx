@@ -25,7 +25,7 @@ export function Dropdown({logout}: { logout: LogoutFunction }) {
             <Link href={'/profile'}>Profile</Link>
             </DropdownMenuItem>
           <DropdownMenuItem className="hover:bg-red-500">
-            <span className="cursor-pointer" onClick={logout}>Logout</span>
+            <span className="cursor-pointer " onClick={logout}>Logout</span>
             </DropdownMenuItem>
         </DropdownMenuGroup>
         

@@ -74,7 +74,7 @@ export default function WishList() {
   return <>
    
     {!WishListData || WishListData?.count > 0 ? <main className="flex-1">
-      <div className="w-full md:w-[80%] px-5 md:px-10 mx-auto pt-20 md:pt-24 my-10 flex flex-col items-center">
+      <div className="w-full md:w-[80%] px-5 md:px-10 mx-auto pt-20 md:pt-24 my-10 flex flex-col items-center h-screen">
 
         <div className="p-5 w-full flex items-center justify-center md:justify-between">
           <h1 className="text-2xl font-bold text-emerald-500">My Wish List:</h1>

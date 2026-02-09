@@ -62,7 +62,7 @@ export default function Navbar() {
     ]
 
     return <>
-        <nav className="bg-gray-200 w-full z-20 top-0 start-0">
+        <nav className="bg-gray-200 w-full z-20 top-0 start-0 sticky">
             <div className="max-w-screen-xl flex flex-wrap md:flex-nowrap md:gap-16 items-center justify-between mx-auto p-4">
                 <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <Image src={logo} width={150} height={50} alt='logo' />
@@ -87,8 +87,8 @@ export default function Navbar() {
                                 <li className='relative wish'>
                                     {WishListData && WishListData?.count > 0 ? <Badge className="bg-green-400 text-white absolute -end-3 -top-5">{WishListData?.count}</Badge>
                                         : null}
-                                    <Link href="/wishList" className="flex justify-center gap-1">
-                                        <p className='hover:text-red-500'>wishList</p>
+                                    <Link href="/wishList" className="flex justify-center gap-1 group">
+                                        <p className='hover:text-red-500 group-hover:text-red-500'>wishList</p>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-red-500">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                         </svg>
@@ -100,8 +100,8 @@ export default function Navbar() {
 
                                     {cartData && cartData?.numOfCartItems > 0 ? <Badge className="bg-green-400 text-white absolute -end-3 -top-5">{cartData?.numOfCartItems}</Badge>
                                         : null}
-                                    <Link href="/cart" className="flex items-center gap-1">
-                                        <p className='hover:text-green-500'>Cart</p>
+                                    <Link href="/cart" className="flex items-center gap-1 group">
+                                        <p className='hover:text-green-500 group-hover:text-green-500'>Cart</p>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg "
                                             fill="none"
