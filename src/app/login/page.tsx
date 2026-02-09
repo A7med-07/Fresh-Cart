@@ -11,6 +11,7 @@ import { signIn } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import { loginSchema } from '../_components/schema/loginSchema'
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 export default function Login() {
 
  const searchParams =  useSearchParams()
@@ -116,7 +117,11 @@ export default function Login() {
 
 
 
-
+<div className="text-right mt-2">
+  <Link href="/forgot-password" className="text-sm text-green-600 hover:underline">
+    Forgot Password?
+  </Link>
+</div>
 
         <Button disabled={isLoading} className='w-full my-4 text-sm sm:text-base' type='submit'>
           {isLoading ? 'Loading..' : ' Submit'}
