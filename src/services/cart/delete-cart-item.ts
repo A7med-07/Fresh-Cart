@@ -12,7 +12,7 @@ export async function deleteCartItem(productId: string) {
         throw new Error('unauthorized...')
     }
 
-    const response =await fetch(`${process.env.API}cart/${productId}`, {
+    const response =await fetch(`https://ecommerce.routemisr.com/api/v2/cart/${productId}`, {
         method: 'DELETE',
         headers: {
             token: token,
