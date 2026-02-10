@@ -24,47 +24,28 @@ type myProps = {
 export default async function CategoryDetailsPage(props: myProps) {
   let { id } = await props.params
 
-
   let categoryResponse = await fetch(`https://ecommerce.routemisr.com/api/v1/categories/${id}`, {
     cache: 'no-store'
   })
   let { data: categoryDetails }: CategoryDetailsResponse = await categoryResponse.json()
 
- 
   let productsResponse = await fetch(`https://ecommerce.routemisr.com/api/v1/products?category=${id}`, {
     cache: 'no-store'
   })
   let { data: categoryProducts }: CategoryProductsResponse = await productsResponse.json()
 
-
+  // ✅ الحل الصحيح: استخدم query parameter بدل nested route
   let subCategoriesResponse = await fetch(
-    `https://ecommerce.routemisr.com/api/v1/categories/${id}/subcategories`,
+    `https://ecommerce.routemisr.com/api/v1/subcategories?category=${id}`,
     { cache: 'no-store' }
   )
   let subCategoriesData = await subCategoriesResponse.json()
-  
-  console.log('Category ID:', id)
-  console.log('Category Name:', categoryDetails.name)
-  console.log('SubCategories Full Response:', subCategoriesData)
-  
-
-  let allSubCategories: supCat[] = subCategoriesData.data || []
-  
- 
-  let subCategories = allSubCategories.filter((sub: any) => {
-    
-    if (sub.category) {
-      return sub.category === id || sub.category._id === id
-    }
-    return true
-  })
-
-  console.log('Filtered SubCategories:', subCategories)
+  let subCategories: supCat[] = subCategoriesData.data || []
 
   return (
     <>
       <div className='container mx-auto px-4 py-8'>
-        {/* معلومات الكاتيجوري */}
+       
         <div className='grid grid-cols-1 md:grid-cols-2 gap-5 items-center mb-10'>
           <div className='md:span-1 flex justify-center'>
             <div className='w-full max-w-md bg-gray-100 dark:bg-gray-700 rounded-xl p-8 flex items-center justify-center'>
@@ -111,7 +92,7 @@ export default async function CategoryDetailsPage(props: myProps) {
         </div>
 
         {/* SubCategories */}
-        {subCategories && subCategories.length > 0 ? (
+        {subCategories.length > 0 && (
           <div className='mb-10'>
             <h2 className='text-2xl sm:text-3xl font-bold mb-6 text-emerald-600 dark:text-emerald-400'>
               Sub Categories in {categoryDetails.name}:
@@ -128,15 +109,9 @@ export default async function CategoryDetailsPage(props: myProps) {
               ))}
             </div>
           </div>
-        ) : (
-          <div className="mb-10 flex justify-center items-center text-center py-10 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <h3 className="text-lg text-gray-500 dark:text-gray-400">
-              No Subcategories Available for {categoryDetails.name}
-            </h3>
-          </div>
         )}
 
-        {/* المنتجات الخاصة بالكاتيجوري */}
+        {/* المنتجات */}
         <div className='mt-10'>
           <h2 className='text-2xl sm:text-3xl font-bold mb-6 text-emerald-600 dark:text-emerald-400'>
             Products in {categoryDetails.name}

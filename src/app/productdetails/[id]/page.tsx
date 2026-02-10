@@ -36,7 +36,7 @@ export default async function ProductDetails(props: myProps) {
       </div>
       <div className='md:span-1'>
 
-        <Card className="relative w-full p-4 sm:p-6 md:p-10">
+        <Card className="relative w-full p-4 mx-11 sm:p-6 md:p-10">
 
           <CardHeader className="p-0 sm:p-6">
             <CardAction>
