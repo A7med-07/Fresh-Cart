@@ -11,7 +11,7 @@ export async function updateCartItem({productId , count}:{productId: string , co
         throw new Error('unauthorized...')
     }
 
-    const response =await fetch(`https://ecommerce.routemisr.com/api/v2/cart/${productId}`, {
+    const response =await fetch(`${process.env.API}cart/${productId}`, {
         method: 'PUT',
         headers: {
             token: token,

@@ -43,7 +43,7 @@ export default function Slider({ categories }: { categories: Category[] }) {
                 {categories.map((category) => (
                     <SwiperSlide key={category._id}>
                         <div className="flex flex-col items-center justify-center cursor-pointer group">
-                            {/* الصورة مع Background */}
+                            {/* Background */}
                             <div className="w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center p-4 group-hover:shadow-lg transition-shadow duration-300">
                                 <Image 
                                     src={category.image} 
@@ -53,7 +53,7 @@ export default function Slider({ categories }: { categories: Category[] }) {
                                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            {/* اسم الكاتيجوري */}
+                            {/* Category Name */}
                             <h2 className="text-sm md:text-base font-medium text-center text-gray-800 dark:text-gray-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
                                 {category.name}
                             </h2>
