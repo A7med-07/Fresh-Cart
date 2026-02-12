@@ -16,8 +16,6 @@ export async function forgotPassword(email: string) {
             }
         }
 
-        console.log('Sending forgot password request to:', `${process.env.API}auth/forgotPasswords`)
-        console.log('Email:', email)
 
         const response = await fetch(`${process.env.API}auth/forgotPasswords`, {
             method: 'POST',
@@ -28,6 +26,8 @@ export async function forgotPassword(email: string) {
                 email
             })
         })
+         console.log('Sending forgot password request to:', `${process.env.API}auth/forgotPasswords`)
+        console.log('Email:', email)
 
         const payload = await response.json()
         
