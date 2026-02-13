@@ -96,68 +96,147 @@ export default function VerifyResetCodePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 min-h-screen flex items-center justify-center">
-      <div className="max-w-md w-full">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
-            <Mail className="w-8 h-8 text-green-600" />
-          </div>
-          <h1 className="text-3xl font-bold mb-2">Check Your Email</h1>
-          <p className="text-gray-600">
-            We sent a 6-digit code to
-          </p>
-          <p className="font-semibold text-gray-800 mt-1">{email}</p>
-        </div>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-indigo-50 via-purple-50/30 to-pink-50/20">
+      <div className="max-w-lg w-full">
         
-        <div className="bg-white rounded-lg shadow p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <Label htmlFor="resetCode" className="text-center block mb-2">
-                Enter Verification Code
-              </Label>
-              <Input
-                id="resetCode"
-                type="text"
-                value={resetCode}
-                onChange={(e) => setResetCode(e.target.value.replace(/\D/g, ''))}
-                placeholder="000000"
-                maxLength={6}
-                disabled={loading}
-                className="text-center text-3xl tracking-[0.5em] font-mono font-bold"
-                autoFocus
-              />
-              <p className="text-xs text-gray-500 text-center mt-2">
-                Enter the 6-digit code from your email
-              </p>
+        {/* Main Card */}
+        <div className="bg-white rounded-3xl shadow-2xl border-2 border-gray-100 overflow-hidden">
+          
+          {/* Header */}
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-10 text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm mb-4 shadow-lg">
+              <Mail className="w-10 h-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold text-white mb-3">Check Your Email</h1>
+            <p className="text-indigo-100 text-lg mb-2">
+              We sent a 6-digit code to
+            </p>
+            <p className="font-bold text-white text-lg bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl inline-block">
+              {email}
+            </p>
+          </div>
+
+          {/* Form Section */}
+          <div className="p-8 sm:p-10">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              
+              {/* Code Input */}
+              <div>
+                <Label htmlFor="resetCode" className="text-center block mb-4 text-gray-700 font-semibold text-lg">
+                  Enter Verification Code
+                </Label>
+                <Input
+                  id="resetCode"
+                  type="text"
+                  value={resetCode}
+                  onChange={(e) => setResetCode(e.target.value.replace(/\D/g, ''))}
+                  placeholder="000000"
+                  maxLength={6}
+                  disabled={loading}
+                  className="text-center text-4xl tracking-[0.5em] font-mono font-bold bg-gray-50 border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 rounded-2xl p-6 transition-all duration-300"
+                  autoFocus
+                />
+                <div className="flex items-center justify-center gap-2 mt-4">
+                  <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-sm text-gray-600">
+                    Enter the 6-digit code from your email
+                  </p>
+                </div>
+              </div>
+
+              {/* Code Progress Indicator */}
+              <div className="flex justify-center gap-2">
+                {[...Array(6)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      i < resetCode.length
+                        ? 'bg-gradient-to-r from-indigo-500 to-purple-500 scale-125'
+                        : 'bg-gray-200'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Submit Button */}
+              <Button 
+                type="submit" 
+                disabled={loading || resetCode.length !== 6}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-6 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Verifying...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Verify Code
+                  </span>
+                )}
+              </Button>
+            </form>
+
+            {/* Resend Section */}
+            <div className="mt-8 text-center space-y-4">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t-2 border-gray-200"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-white text-gray-500 font-medium">Didn't receive the code?</span>
+                </div>
+              </div>
+              
+              <button
+                onClick={handleResendCode}
+                disabled={resending}
+                className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-semibold hover:underline disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 group"
+              >
+                {resending ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Resending...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5 transform group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Resend Code
+                  </>
+                )}
+              </button>
             </div>
 
-            <Button 
-              type="submit" 
-              disabled={loading || resetCode.length !== 6}
-              className="w-full"
-            >
-              {loading ? 'Verifying...' : 'Verify Code'}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center space-y-3">
-            <p className="text-sm text-gray-600">Didn't receive the code?</p>
-            <button
-              onClick={handleResendCode}
-              disabled={resending}
-              className="text-sm font-medium text-green-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {resending ? 'Resending...' : 'Resend Code'}
-            </button>
+            {/* Timer Notice */}
+            <div className="mt-6 flex items-center gap-3 text-sm text-gray-600 bg-indigo-50 p-4 rounded-xl border border-indigo-200">
+              <svg className="w-6 h-6 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>The verification code will expire in 10 minutes</span>
+            </div>
           </div>
         </div>
 
-        <div className="text-center mt-6">
+        {/* Bottom Links */}
+        <div className="text-center mt-6 space-y-3">
           <Link 
             href="/forgot-password" 
-            className="inline-flex items-center gap-2 text-sm text-green-600 hover:underline"
+            className="inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700 font-semibold hover:underline transition-colors duration-300 group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
             Use a different email
           </Link>
         </div>
